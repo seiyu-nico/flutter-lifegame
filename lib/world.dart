@@ -14,8 +14,10 @@ class World extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Expanded(
-      child: Consumer(builder: (context, ref, _) {
+    LifeGame lifeGame = ref.read(lifeGameProvider);
+    lifeGame.create();
+    return Consumer(
+      builder: (context, ref, _) {
         LifeGame lifeGame = ref.watch(lifeGameProvider);
         return Column(
           children: List.generate(
@@ -38,7 +40,7 @@ class World extends ConsumerWidget {
             ),
           ),
         );
-      }),
+      },
     );
   }
 }
