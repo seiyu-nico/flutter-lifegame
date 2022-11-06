@@ -12,11 +12,12 @@ import 'package:quiver/iterables.dart';
 class LifeGame extends ChangeNotifier {
   LifeGame() : super();
 
-  static const int _defaultLength = 50;
+  static const int defaultLength = 50;
+  static const int minLength = 0;
+  static const int maxLength = 100;
 
   bool _isRun = false;
-  int _length = _defaultLength;
-  int defaultLength = _defaultLength;
+  int _length = defaultLength;
   List<List<bool>> _world = [];
 
   List<List<bool>> get world => _world;

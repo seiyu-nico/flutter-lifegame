@@ -10,9 +10,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quiver/iterables.dart';
 
 // Project imports:
-import './Providers/LifeGameProvider.dart';
+import './controls.dart';
 import './world.dart';
-import './Controls.dart';
 
 void main() {
   runApp(

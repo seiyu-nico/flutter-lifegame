@@ -1,50 +1,57 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
-import './Providers/LifeGameProvider.dart';
+import './Providers/lifeGameProvider.dart';
 
 class Controls extends ConsumerWidget {
   Controls({Key? key}) : super(key: key);
 
   final _lengthController = TextEditingController();
+  static const String labelText =
+      '${LifeGame.minLength} ~ ${LifeGame.maxLength}の値を入力してください';
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    LifeGame lifeGame = ref.read(lifeGameProvider);
-    _lengthController.text = lifeGame.defaultLength.toString();
+    _lengthController.text = LifeGame.defaultLength.toString();
     return Container(
       height: 150,
       decoration: const BoxDecoration(color: Colors.white),
       child: Column(
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 50.0),
-                child: Consumer(builder: (context, ref, _) {
-                  LifeGame lifeGame = ref.read(lifeGameProvider);
-                  return TextFormField(
-                    decoration: const InputDecoration(hintText: "10 ~ 100"),
-                    controller: _lengthController,
-                    keyboardType: TextInputType.number,
-                    textAlignVertical: TextAlignVertical.center,
-                    textAlign: TextAlign.center,
-                    onChanged: (value) {
-                      if (!(0 <= int.parse(value) && int.parse(value) <= 100)) {
-                        _lengthController.text =
-                            lifeGame.defaultLength.toString();
-                        return;
+          Container(
+            width: MediaQuery.of(context).size.width / 3,
+            alignment: Alignment.center,
+            padding: const EdgeInsets.symmetric(horizontal: 50.0),
+            child: Consumer(builder: (context, ref, _) {
+              LifeGame lifeGame = ref.read(lifeGameProvider);
+              return TextFormField(
+                decoration: const InputDecoration(labelText: labelText),
+                controller: _lengthController,
+                keyboardType: TextInputType.number,
+                textAlignVertical: TextAlignVertical.center,
+                textAlign: TextAlign.center,
+                inputFormatters: <TextInputFormatter>[
+                  TextInputFormatter.withFunction(
+                    (oldValue, newValue) {
+                      if (!(LifeGame.minLength <= int.parse(newValue.text) &&
+                          int.parse(newValue.text) <= LifeGame.maxLength)) {
+                        newValue = oldValue;
+                        showSnackBar(context);
                       }
-                      lifeGame.setLength(int.parse(value));
+                      return newValue;
                     },
-                  );
-                }),
-              ),
-            ],
+                  ),
+                ],
+                onChanged: (value) {
+                  lifeGame.setLength(int.parse(value));
+                },
+              );
+            }),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -95,6 +102,22 @@ class Controls extends ConsumerWidget {
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  void showSnackBar(context) {
+    ScaffoldMessenger.of(context).removeCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text(labelText),
+        action: SnackBarAction(
+          label: 'とじる',
+          onPressed: () {
+            ScaffoldMessenger.of(context).removeCurrentSnackBar();
+          },
+        ),
+        duration: const Duration(seconds: 2),
       ),
     );
   }
