@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
-import './Providers/LifeGameProvider.dart';
+import 'Providers/lifeGameProvider.dart';
 
 class World extends ConsumerWidget {
   const World({
@@ -14,31 +14,40 @@ class World extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Expanded(
-      child: Consumer(builder: (context, ref, _) {
-        LifeGame lifeGame = ref.watch(lifeGameProvider);
-        return Column(
-          children: List.generate(
-            lifeGame.length,
-            (int y) => Expanded(
-              child: Row(
-                children: List.generate(
-                  lifeGame.length,
-                  (int x) => Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black),
-                        color:
-                            lifeGame.world[y][x] ? Colors.black : Colors.white,
+    LifeGame lifeGame = ref.read(lifeGameProvider);
+    lifeGame.create();
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: AspectRatio(
+        aspectRatio: 1,
+        child: Consumer(
+          builder: (context, ref, _) {
+            LifeGame lifeGame = ref.watch(lifeGameProvider);
+            return Column(
+              children: List.generate(
+                lifeGame.length,
+                (int y) => Expanded(
+                  child: Row(
+                    children: List.generate(
+                      lifeGame.length,
+                      (int x) => Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black),
+                            color: lifeGame.world[y][x]
+                                ? Colors.black
+                                : Colors.white,
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ),
-        );
-      }),
+            );
+          },
+        ),
+      ),
     );
   }
 }

@@ -10,7 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quiver/iterables.dart';
 
 // Project imports:
-import './Providers/LifeGameProvider.dart';
+import './controls.dart';
 import './world.dart';
 
 void main() {
@@ -36,78 +36,23 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends ConsumerWidget {
+class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    LifeGame lifeGame = ref.read(lifeGameProvider);
-    lifeGame.create();
-
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('ライフゲーム'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const World(),
-            Container(
-              height: 150,
-              decoration: const BoxDecoration(color: Colors.white),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Consumer(
-                      builder: (context, ref, _) {
-                        LifeGame lifeGame = ref.read(lifeGameProvider);
-                        return ElevatedButton(
-                          onPressed: () {
-                            lifeGame.setRun(true);
-                            lifeGame.next();
-                          },
-                          child: const Text('start'),
-                        );
-                      },
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Consumer(
-                      builder: (context, ref, _) {
-                        LifeGame lifeGame = ref.read(lifeGameProvider);
-                        return ElevatedButton(
-                          onPressed: () {
-                            lifeGame.setRun(false);
-                          },
-                          child: const Text('stop'),
-                        );
-                      },
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Consumer(
-                      builder: (context, ref, _) {
-                        LifeGame lifeGame = ref.read(lifeGameProvider);
-                        return ElevatedButton(
-                          onPressed: () {
-                            lifeGame.reset();
-                          },
-                          child: const Text('reset'),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          const Expanded(
+            child: World(),
+          ),
+          Controls(),
+        ],
       ),
     );
   }
