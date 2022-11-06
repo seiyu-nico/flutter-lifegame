@@ -24,7 +24,6 @@ class Controls extends ConsumerWidget {
       child: Column(
         children: [
           Container(
-            width: MediaQuery.of(context).size.width / 3,
             alignment: Alignment.center,
             padding: const EdgeInsets.symmetric(horizontal: 50.0),
             child: Consumer(builder: (context, ref, _) {
