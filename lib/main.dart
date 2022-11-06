@@ -45,17 +45,14 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('ライフゲーム'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Expanded(
-              child: World(),
-            ),
-            Controls(),
-          ],
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          const Expanded(
+            child: World(),
+          ),
+          Controls(),
+        ],
       ),
     );
   }
