@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
-import 'Providers/life_game_provider.dart';
+import 'providers/life_game_provider.dart';
 
 class World extends ConsumerWidget {
   const World({
