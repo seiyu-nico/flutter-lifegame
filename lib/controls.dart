@@ -62,6 +62,9 @@ class Controls extends ConsumerWidget {
                     LifeGame lifeGame = ref.read(lifeGameProvider);
                     return ElevatedButton(
                       onPressed: () {
+                        if (lifeGame.isRun) {
+                          return;
+                        }
                         lifeGame.setRun(true);
                         lifeGame.next();
                       },

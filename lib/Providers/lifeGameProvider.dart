@@ -22,6 +22,7 @@ class LifeGame extends ChangeNotifier {
 
   List<List<bool>> get world => _world;
   int get length => _length;
+  bool get isRun => _isRun;
   void setRun(bool state) => _isRun = state;
   void setLength(int length) {
     _length = length;
