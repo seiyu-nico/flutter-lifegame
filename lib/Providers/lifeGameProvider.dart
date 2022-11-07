@@ -40,7 +40,7 @@ class LifeGame extends ChangeNotifier {
     _world = List.generate(
         _length,
         (_) => List.generate(
-            _length, (_) => rand.nextDouble() > 0.3 ? false : true));
+            _length, (_) => rand.nextDouble() < 0.3 ? true : false));
   }
 
   void next() async {
