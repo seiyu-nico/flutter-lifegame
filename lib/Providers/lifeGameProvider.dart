@@ -1,6 +1,4 @@
 // Dart imports:
-import 'dart:io';
-import 'dart:math' as math;
 
 // Flutter imports:
 import 'package:flutter/material.dart';
@@ -8,6 +6,9 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quiver/iterables.dart';
+
+// Project imports:
+import '../rules.dart';
 
 class LifeGame extends ChangeNotifier {
   LifeGame() : super();
@@ -36,11 +37,7 @@ class LifeGame extends ChangeNotifier {
   }
 
   void create() {
-    var rand = math.Random();
-    _world = List.generate(
-        _length,
-        (_) => List.generate(
-            _length, (_) => rand.nextDouble() > 0.3 ? false : true));
+    _world = Rules.random(_length);
   }
 
   void next() async {
